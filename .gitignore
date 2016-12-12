@@ -27,3 +27,4 @@ bin/config.sh
 docker/*/*.db
 docker/*/*.gz
 docker/*/*.t*gz
+docker/*/config.gcfg

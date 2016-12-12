@@ -16,3 +16,4 @@ RUN apk add binutils coreutils findutils grep
 
 ENV PATH $GOPATH/bin:/usr/local/bin:$PATH
 
+RUN echo 'export PATH=$GOPATH/bin:$PATH' > /etc/profile.d/golang.sh && chmod +x /etc/profile.d/golang.sh
