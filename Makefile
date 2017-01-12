@@ -9,11 +9,9 @@ test:
 	docker run -it -P -v $(PWD)/shared:/shared pstuart/dcman-build "bash"
 
 kill:
-	docker kill $(shell docker ps -a -q)
-	#docker rm $(shell docker ps -a -q)
+	docker kill $(shell docker ps -q)
 
 rm:
-	#docker kill $(shell docker ps -a -q)
 	docker rm $(shell docker ps -a -q)
 
 build: 

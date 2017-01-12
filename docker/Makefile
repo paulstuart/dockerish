@@ -17,11 +17,23 @@ golang:
 docker:
 	docker build -t pstuart/alpine-docker docker
 
+rpms: 
+	docker build -t pstuart/rpmbuilder rpms
+
+bind: 
+	docker build -t pstuart/bind bind/BUILD
+
+httpd: 
+	docker build -t pstuart/httpd httpd
+
+dhcpd: 
+	docker build -t pstuart/dhcpd dhcpd
+
 dcman-build: 
 	docker build -t pstuart/dcman-build dcman-build
 
 dcman-pkg: 
 	docker build -t pstuart/dcman-pkg dcman-pkg
 
-.PHONY: all base clean docker ubuntu golang sshd dcman-build dcman-pkg
+.PHONY: all base clean docker dhcpd rpms ubuntu golang sshd dcman-build dcman-pkg bind httpd
 
