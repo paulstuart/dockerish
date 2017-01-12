@@ -1,0 +1,18 @@
+#!/bin/bash
+
+cd $(dirname $0)
+
+. config.env 2> /dev/null
+
+DNS_HOST=${DNS_HOST:-dns.example.com}
+DNS_IP=${DNS_IP:-127.0.0.1}
+
+[[ $1 ]] && MODE=-"--rm -it" || MODE=-d
+
+docker run --hostname ${DNS_HOST} \
+	$MODE -p ${DNS_IP}:53:53/udp \
+	-v $PWD/FILES/etc/named.conf:/etc/named.conf \
+	-v $PWD/FILES/etc/named:/etc/named \
+	-v $PWD/FILES/var/named/zones:/var/named/zones \
+	-v $PWD/FILES/var/log/named:/var/log/named \
+	pstuart/bind $1 
