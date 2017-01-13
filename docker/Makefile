@@ -24,10 +24,13 @@ rpms:
 	docker build -t pstuart/rpmbuilder rpms
 
 bind: 
-	docker build -t pstuart/bind bind/BUILD
+	docker build -t pstuart/bind bind
 
 httpd: 
 	docker build -t pstuart/httpd httpd
+
+tftp: 
+	docker build -t pstuart/tftp tftp
 
 dhcpd: 
 	docker build -t pstuart/dhcpd dhcpd
@@ -41,5 +44,5 @@ dcman-build:
 dcman-pkg: 
 	docker build -t pstuart/dcman-pkg dcman-pkg
 
-.PHONY: all base clean docker dhcpd rpms ubuntu golang sshd dcman-build dcman-pkg bind httpd centos6 syslog
+.PHONY: all base clean docker dhcpd rpms ubuntu golang sshd dcman-build dcman-pkg bind httpd centos6 syslog tftp
 
