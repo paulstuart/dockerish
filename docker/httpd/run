@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd $(dirname $0)
+docker run --rm -it -v /mnt/centos:/var/www/html/centos -p 10080:80 pstuart/httpd 

@@ -7,7 +7,7 @@ cd $(dirname $0)
 DNS_HOST=${DNS_HOST:-dns.example.com}
 DNS_IP=${DNS_IP:-127.0.0.1}
 
-[[ $1 ]] && MODE=-"--rm -it" || MODE=-d
+[[ $1 ]] && MODE="--rm -it" || MODE=-d
 
 docker run --hostname ${DNS_HOST} \
 	$MODE -p ${DNS_IP}:53:53/udp \

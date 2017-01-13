@@ -8,7 +8,4 @@ RUN yum -y update
 
 RUN yum -y install bind bind-utils #iproute
 
-#COPY docker-entrypoint.sh /
-
 CMD ["/usr/sbin/named", "-u", "named", "-f" ]
-#CMD ["/docker-entrypoint.sh"]

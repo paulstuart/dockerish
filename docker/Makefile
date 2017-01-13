@@ -8,6 +8,9 @@ base:
 ubuntu:
 	docker build -t pstuart/ubuntu-test ubuntu
 
+centos6:
+	docker build -t pstuart/centos6 centos6
+
 sshd:
 	docker build -t pstuart/alpine-sshd:latest sshd
 
@@ -29,11 +32,14 @@ httpd:
 dhcpd: 
 	docker build -t pstuart/dhcpd dhcpd
 
+syslog: 
+	docker build -t pstuart/syslog syslog
+
 dcman-build: 
 	docker build -t pstuart/dcman-build dcman-build
 
 dcman-pkg: 
 	docker build -t pstuart/dcman-pkg dcman-pkg
 
-.PHONY: all base clean docker dhcpd rpms ubuntu golang sshd dcman-build dcman-pkg bind httpd
+.PHONY: all base clean docker dhcpd rpms ubuntu golang sshd dcman-build dcman-pkg bind httpd centos6 syslog
 
