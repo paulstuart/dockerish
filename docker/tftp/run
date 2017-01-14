@@ -1,0 +1,67 @@
+#!/bin/bash
+
+cd $(dirname $0)
+
+. config.env 2> /dev/null
+
+DOCKER_IMAGE=pstuart/tftp
+DOCKER_HOST=${DOCKER_HOST:-hostname.example.com}
+#DOCKER_IP=${DOCKER_IP:-0.0.0.0}
+DOCKER_PORTS=(69:69/udp 8099:8099) 
+DOCKER_FILES=$PWD/FILES/
+
+[[ $1 ]] && MODE="-it --rm" || MODE=-d
+
+#[[ -n $DOCKER_IP || $DOCKER_IP != "127.0.0.1" ]] && EXTERNAL_IP="${DOCKER_IP}:" || EXTERNAL_IP=""
+[[ $DOCKER_IP ]] && EXTERNAL_IP="${DOCKER_IP}:" || EXTERNAL_IP=""
+
+ports() {
+  [[ $1 ]] | return
+  for p in ${DOCKER_PORTS[@]}
+  do
+    echo "-p ${EXTERNAL_IP}$p"
+  done
+}
+
+vol() {
+  # off / mnt are used to skip the top level directory
+  off=${#DOCKER_FILES}
+  mnt=${1:$off}
+  [[ $mnt ]] || return 
+  echo "-v ${1}:/${mnt}"
+}
+
+#
+# Find files / directories to mount as volumes
+# If a directory has files or sub directories, then they are mounted
+# Otherwise the empty dir will be mounted
+#
+files() {
+  [[ $DOCKER_FILES && -d $DOCKER_FILES ]] || return
+  local out
+  for x in $(find $DOCKER_FILES)
+  do
+     if [[ $out && -d $out && $x/ =~ $out/ ]]; then
+	   out=$x
+           continue
+     fi
+     [[ $out ]] && vol $out # echo $out
+     out=$x
+  done
+  [[ $out ]] && vol $out # echo $out
+}
+
+#files ; exit
+#ports ; exit
+
+#docker run --net=host --hostname ${DOCKER_HOST} ${MODE} \
+echo docker run ${MODE} \
+	$(ports) \
+	$(files) \
+	$DOCKER_IMAGE $1 
+
+docker run ${MODE} \
+	$(ports) \
+	$(files) \
+	$DOCKER_IMAGE $1 
+
