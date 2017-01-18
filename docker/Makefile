@@ -35,8 +35,8 @@ tftp:
 dhcpd: 
 	docker build -t pstuart/dhcpd dhcpd
 
-syslog: 
-	docker build -t pstuart/syslog syslog
+rsyslog: 
+	docker build -t pstuart/rsyslog rsyslog
 
 dcman-build: 
 	docker build -t pstuart/dcman-build dcman-build
@@ -44,5 +44,14 @@ dcman-build:
 dcman-pkg: 
 	docker build -t pstuart/dcman-pkg dcman-pkg
 
-.PHONY: all base clean docker dhcpd rpms ubuntu golang sshd dcman-build dcman-pkg bind httpd centos6 syslog tftp
+clean:
+	cd ..; $(MAKE) kill rm
+	
+rm:
+	$(MAKE) -C .. rm
+
+kill:
+	$(MAKE) -C .. kill
+
+.PHONY: all base clean docker dhcpd rpms ubuntu golang sshd dcman-build dcman-pkg bind httpd centos6 rsyslog tftp clean kill
 

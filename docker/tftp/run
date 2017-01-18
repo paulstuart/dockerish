@@ -62,6 +62,8 @@ echo docker run ${MODE} \
 
 docker run ${MODE} \
 	$(ports) \
+	--volumes-from rsyslog.service \
 	$(files) \
 	$DOCKER_IMAGE $1 
 
+	#-v /dev/log:/dev/log \

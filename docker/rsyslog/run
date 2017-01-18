@@ -52,5 +52,7 @@ files() {
 #files ; exit
 #ports ; exit
 
+[[ -d log ]] || mkdir log
+
 docker run --name $DOCKER_NAME $MODE $(ports) -v $PWD/log:/var/log --log-driver=syslog $DOCKER_IMAGE $1
 
