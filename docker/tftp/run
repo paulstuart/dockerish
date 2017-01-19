@@ -4,10 +4,13 @@ cd $(dirname $0)
 
 . config.env 2> /dev/null
 
+DOCKER_NAME=${DOCKER_NAME:-tftp}
 DOCKER_IMAGE=pstuart/tftp
 DOCKER_HOST=${DOCKER_HOST:-hostname.example.com}
 #DOCKER_IP=${DOCKER_IP:-0.0.0.0}
-DOCKER_PORTS=(69:69/udp 8099:8099) 
+#DOCKER_PORTS=(69:69/udp 8099:8099) 
+#DOCKER_PORTS=(69:69/udp 23000-23999:23000-23999/udp)
+DOCKER_PORTS=(69:69/udp)
 DOCKER_FILES=$PWD/FILES/
 
 [[ $1 ]] && MODE="-it --rm" || MODE=-d
@@ -54,16 +57,16 @@ files() {
 #files ; exit
 #ports ; exit
 
-#docker run --net=host --hostname ${DOCKER_HOST} ${MODE} \
-echo docker run ${MODE} \
-	$(ports) \
-	$(files) \
-	$DOCKER_IMAGE $1 
+	#--net=host --hostname ${DOCKER_HOST}	\
 
-docker run ${MODE} \
-	$(ports) \
-	--volumes-from rsyslog.service \
-	$(files) \
+ERRATA="--log-driver=syslog --log-opt syslog-address=udp://10.110.192.15:514 --log-opt tag=remote"
+
+docker run --name $DOCKER_NAME ${MODE}		\
+	--net=host --hostname ${DOCKER_HOST}	\
+	$(ports)				\
+	$(files) 				\
+	--volumes-from rsyslog 			\
+	$ERRATA					\
 	$DOCKER_IMAGE $1 
 
 	#-v /dev/log:/dev/log \
