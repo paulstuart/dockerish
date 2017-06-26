@@ -15,7 +15,22 @@ sshd:
 	docker build -t pstuart/alpine-sshd:latest sshd
 
 golang:
-	docker build -t pstuart/alpine-golang golang
+	docker build \
+		--build-arg http_proxy=$$http_proxy 	\
+		--build-arg https_proxy=$$https_proxy	\
+		--build-arg HTTP_PROXY=$$HTTP_PROXY	\
+		--build-arg HTTPS_PROXY=$$HTTPS_PROXY	\
+		--build-arg no_proxy=$$no_proxy		\
+		-t pstuart/alpine-golang golang
+
+rlang:
+	docker build \
+		--build-arg http_proxy=$$http_proxy 	\
+		--build-arg https_proxy=$$https_proxy	\
+		--build-arg HTTP_PROXY=$$HTTP_PROXY	\
+		--build-arg HTTPS_PROXY=$$HTTPS_PROXY	\
+		--build-arg no_proxy=$$no_proxy		\
+		-t pstuart/rlang rlang
 
 docker:
 	docker build -t pstuart/alpine-docker docker
@@ -53,5 +68,5 @@ rm:
 kill:
 	$(MAKE) -C .. kill
 
-.PHONY: all base clean docker dhcpd rpms ubuntu golang sshd dcman-build dcman-pkg bind httpd centos6 rsyslog tftp clean kill
+.PHONY: all base clean docker dhcpd rpms ubuntu golang sshd dcman-build dcman-pkg bind httpd centos6 rsyslog tftp clean kill rlang
 
