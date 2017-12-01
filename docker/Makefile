@@ -6,7 +6,7 @@ base:
 	docker build -t pstuart/alpine:latest base
 
 ubuntu:
-	docker build -t pstuart/ubuntu-test ubuntu
+	docker build -t pstuart/ubuntu ubuntu
 
 centos6:
 	docker build -t pstuart/centos6 centos6
